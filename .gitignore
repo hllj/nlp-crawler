@@ -1,0 +1,6 @@
+*.log
+__pycache__/
+node_modules/
+
+# ignore queue for job dir
+crawler/crawler/thanhnien/
