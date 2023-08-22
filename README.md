@@ -150,3 +150,23 @@ ELASTIC_HOSTS = [
     {'host': 'localhost', 'port': 9200, "scheme": "http"},
 ]
 ```
+
+# Scrapy
+
+Để bắt đầu crawl ta dùng lệnh sau:
+
+```bash
+cd crawler/crawler
+```
+
+```bash
+scrapy crawl <spider name> --set JOBDIR=<job name>
+```
+
+Ex:
+
+```bash
+scrapy crawl thanhnien --set JOBDIR=thanhnien
+```
+
+Để tạm dừng và resume lại crawl, ta có thể nhấn Ctrl + C (chỉ một lần) và start lại lệnh trên. Scrapy sẽ tự động lưu một thư mục JOBDIR để start lại những URL chưa được chạy.
