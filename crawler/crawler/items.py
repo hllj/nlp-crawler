@@ -16,3 +16,9 @@ class CrawlerItem(scrapy.Item):
     title = scrapy.Field()
     sapo = scrapy.Field()
     content = scrapy.Field()
+    
+class TV4UItem(scrapy.Item):
+    url = scrapy.Field()
+    messages = scrapy.Field()
+    attachments = scrapy.Field()
+    html = scrapy.Field()
