@@ -1,96 +1,100 @@
 # Vietnamese NLP Scrapy
 
-Codebase để crawl data từ các trang web lớn của Việt Nam
+Codebase to crawl data from major Vietnamese websites
 
 # To Do
 
-Các trang báo:
+News websites:
 
-- [x] Thanhnien
+- [x] [Thanhnien](https://drive.google.com/file/d/1EAuRpeeNec0NkRgU4qJZSGlRbJySbjCL/view?usp=drive_link)
 - [ ] vnexpress
 
-Các trang forum:
+Forums:
 
-- [ ] VnZ
+- [x] [VnZ](https://drive.google.com/file/d/1ypp2caSRbIMAgES2esCLRm8MtCTfTu1l/view?usp=drive_link)
 - [ ] Otofun
-- [ ] Kenhsinhvien
+- [x] [Kenhsinhvien](https://drive.google.com/file/d/1Mve-jod12evo9JQOE8tLYmBwrn66EbYK/view?usp=drive_link)
+- [x] [Hocmai](https://drive.google.com/file/d/1QJIQH5Vq9GNlx_0W8o3Ved-XLfcGY96c/view?usp=drive_link)
 
-# Cài đặt
+# Installation
 
-## Các library cần thiết
+## Libraries
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Các Database, Log
+## Tech Stack
 
 - [x] ElasticSearch + Kibana
 - [ ] MongoDB
 
-Cài đặt Docker + Docker-Compose. Chú ý chỉnh sửa dòng sau để thêm volume từ docker.
+Install Docker + Docker-Compose. Note: Edit the following line to add volume from docker.
+
 ```yaml
 volumes:
     - ./esdata:/home/lap15363/elasticsearch/data
 ```
-Để start service ElasticSearch + Kibana
+
+To start service with ElasticSearch + Kibana
+
 ```bash
 docker-compose up -d
 ```
 
-Chờ khoảng 1 phút để network start. Các service sẽ port sau:
+Wait about 1 minute for the network to start (default: localhost). Services will be ported as follows:
 
-- ElasticSearch: localhost:9200
-- Kibana: localhost:5601
+- ElasticSearch: 9200
+- Kibana: 5601
 
-# Setup spider và các setting
+# Setup spiders and Setting
 
 ## Spider: 
 
-Spiders sẽ chứa implement cách chúng ta crawl các trang.
+Spiders will contain an implementation of how we crawl pages.
 
-Có thể sử dụng các loại SitemapSpider để parse các link từ sitemap nếu có. Có thể xem thử ví dụ từ crawler/spiders/thanhnien.py
+You can use SitemapSpider types to parse links from the sitemap if available. You can see an example from crawler/spiders/thanhnien.py
 
-Các loại spider khác có thể tham khảo [tại đây](https://docs.scrapy.org/en/latest/topics/spiders.html)
+Other types of spiders can be referenced [here](https://docs.scrapy.org/en/latest/topics/spiders.html)
 
-Có thể tham khảo ví dụ custom spider để tạo ra các requests, xem thử crawler/spiders/tv4u.py
+You can refer to my custom spider example to make requests, check out crawler/spiders/tv4u.py
 
 ## Items:
 
-Items sẽ định nghĩa ra Schema của các item mỗi khi chúng ta crawl. 
+Items will define the Schema of the items every time we crawl.
 
-Tham khảo các Item được implement trong crawler/items.py
+Refer to Items implemented in crawler/items.py
 
 ## Exporters:
 
-Exporters là nơi chúng ta implement cách export các item. 
+Exporters is where we implement how to export items.
 
-Ở đây chúng ta có thể viết các cách để connect database và export item và import vào trong DB.
+Here we can write ways to connect database and export items and import into DB.
 
 ## Middlewares
 
-Middlewares là trung gian giữa spiders và site, ở đây chúng ta có thể thêm một số middleware như:
+Middlewares are intermediaries between spiders and the site, here we can add some middleware such as:
 
-- Random User-Agents: ngẫu nhiên chọn user-agent để gửi request tới site.
-- Proxy Middlewares: ngẫu nhiên chọn các proxy để  gửi tới request site.
-- Retry Middleware: cách để retry sau khi không kết nối tới được.
+- Random User-Agents: randomly select user-agents to send requests to the site.
+- Proxy Middlewares: randomly select proxies to send to the request site.
+- Retry Middleware: how to retry after failing to connect.
 
-Có thể tham khảo thêm các lib sau sử dụng thay thế cho các middlewares:
+You can refer to the following libs to use instead of middlewares:
 
 - [Random User-Agents](https://github.com/cnu/scrapy-random-useragent)
 - [Scrapy Rotating Proxies](https://github.com/TeamHG-Memex/scrapy-rotating-proxies)
 
 ## Pipelines
 
-Định nghĩa các pipeline: luồng xử lý các item sau khi crawl được sẽ làm gì tiếp. Ở đây có thể chúng ta sẽ kết hợp các Exporters và Items để tạo ra Pipelines.
+Defining pipelines: the flow of processing items after crawling, what to do next. Here we may combine Exporters and Items to create Pipelines.
 
-Tham khảo ESPipeline trong crawler/pipelines.py
+Refer to ESPipeline in crawler/pipelines.py
 
 ## Settings
 
-Trong file Settings.py sẽ là nơi chúng ta configure tất cả mọi thành phần ở trên.
+In the Settings.py file will be where we configure all the above components.
 
-Một số các configure quan trọng:
+Some important configurations:
 
 ```bash
 DOWNLOAD_DELAY = 0
@@ -113,7 +117,7 @@ TELNETCONSOLE_ENABLED = False
 RETRY_TIMES = 10
 ```
 
-Sử dụng các Middlewares: đưa ra thứ tự các con số cho các middlewares, None là tắt sử dụng middlewares đó.
+Use Middlewares: give the order of numbers for middlewares, None is to turn off the use of that middlewares.
 
 ```bash
 DOWNLOADER_MIDDLEWARES = {
@@ -127,7 +131,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 ```
 
-Sử dụng các Pipelines:
+Pipelines:
 
 ```bash
 ITEM_PIPELINES = {
@@ -153,7 +157,7 @@ ELASTIC_HOSTS = [
 
 # Scrapy
 
-Để bắt đầu crawl ta dùng lệnh sau:
+To start crawling, we use:
 
 ```bash
 cd crawler/crawler
@@ -169,4 +173,4 @@ Ex:
 scrapy crawl thanhnien --set JOBDIR=thanhnien
 ```
 
-Để tạm dừng và resume lại crawl, ta có thể nhấn Ctrl + C (chỉ một lần) và start lại lệnh trên. Scrapy sẽ tự động lưu một thư mục JOBDIR để start lại những URL chưa được chạy.
+To pause and resume crawling, we can press Ctrl + C (only once) and restart the above command. Scrapy will automatically save a JOBDIR folder to restart URLs that have not been run.
