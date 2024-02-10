@@ -72,7 +72,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0
+DOWNLOAD_DELAY = 0.5
 # The download delay setting will honor only one of:
 CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -157,6 +157,7 @@ LOG_FILE = 'crawl.log'
 ELASTIC_HOSTS = [
     {'host': 'localhost', 'port': 9200, "scheme": "http"},
 ]
+ELASTIC_INDEX = 'vnz'
 
 ROTATING_PROXY_LIST_PATH = 'proxies.txt'
 NUMBER_OF_PROXIES_TO_FETCH = 20

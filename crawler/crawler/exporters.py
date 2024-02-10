@@ -4,13 +4,13 @@ from scrapy.exporters import BaseItemExporter
 
 
 class ESItemExporter(BaseItemExporter):
-    index = 'thanhnien'
     doc_type = 'Post'
 
     def __init__(self, **kwargs):
         super(ESItemExporter, self).__init__(**kwargs)
         settings = get_project_settings()
         self.elastic_hosts = settings.get('ELASTIC_HOSTS')
+        self.index = settings.get('ELASTIC_INDEX')
 
         if self.elastic_hosts is not None:
             self.client = Elasticsearch(hosts=self.elastic_hosts)

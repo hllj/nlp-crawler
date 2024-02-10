@@ -22,3 +22,24 @@ class TV4UItem(scrapy.Item):
     messages = scrapy.Field()
     attachments = scrapy.Field()
     html = scrapy.Field()
+    
+    
+class ForumItem(scrapy.Item):
+    item_id = scrapy.Field()
+    url = scrapy.Field()
+    source = scrapy.Field()
+    category_page_name = scrapy.Field()
+    category_name=  scrapy.Field()
+    datetime = scrapy.Field()
+    title = scrapy.Field()
+    post = scrapy.Field()
+    replies = scrapy.Field()
+    
+class VNZItem(scrapy.Item):
+    item_id = scrapy.Field()
+    url = scrapy.Field()
+    source = scrapy.Field()
+    datetime = scrapy.Field()
+    title = scrapy.Field()
+    post = scrapy.Field()
+    replies = scrapy.Field()
